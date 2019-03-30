@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    var imageBuffer = [UIImage()]
+    let imagePicker = UIImagePickerController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,7 +24,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         scanButton.setTitle("Take Picture", for: UIControl.State.normal)
         scanButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         
-        let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .camera
         imagePicker.delegate =  self
         self.present(imagePicker, animated: true, completion: nil)
@@ -29,10 +31,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.view.addSubview(scanButton)
         self.view.addSubview(imageView)
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if imageBuffer.endIndex > 5 {
+            imageBuffer.remove(at: 0)
+        }
+        
+        imageBuffer.append((info[.originalImage] as? UIImage)!)
+    }
 
     @objc func buttonAction(sender: UIButton!) {
         print("button tapped")
-        
+        imagePicker.takePicture()
     }
     
 }
