@@ -24,6 +24,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.shared.isIdleTimerDisabled = true
+        let backgroundView = UIImageView()
+        backgroundView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 85)
+        backgroundView.backgroundColor = UIColor.init(white: 0, alpha: 1)
         
         locationManager.requestWhenInUseAuthorization()
         
@@ -86,11 +90,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         print("button tapped")
         imagePicker.takePicture()
         
-        if timer != nil {
+        if (timer?.isValid)! {
             timer = Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
         } else {
             timer?.invalidate()
-            timer = nil
         }
     }
     
