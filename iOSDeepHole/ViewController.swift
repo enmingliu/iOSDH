@@ -158,6 +158,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bufferCounter.text = String(imageBuffer.count)
         self.view.addSubview(imageView)
         print("photoOutput")
+        print(image?.pixelData())
     }
     
     
