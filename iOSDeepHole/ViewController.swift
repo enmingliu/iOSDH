@@ -82,7 +82,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bufferCounter.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 200, width: 160, height: 45)
         bufferCounter.text = "0"
         imageBuffer.remove(at: 0)
+        locationBuffer.remove(at: 0)
         print(imageBuffer.count)
+        print(locationBuffer.count)
         
         timerOn.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 300, width: 160, height: 45)
         timerOn.text = "off"
@@ -142,11 +144,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if imageBuffer.endIndex >= 5 {
             imageBuffer.remove(at: 0)
         }
+        if locationBuffer.endIndex >= 5 {
+            locationBuffer.remove(at: 0)
+        }
         
         let image = UIImage(data: imageData)
         imageView.backgroundColor = .clear
         // imageView.image = image
         imageBuffer.append(image!)
+        locationBuffer.append(curLocation!)
         // first
         imageView.image = imageBuffer.first
         bufferCounter.text = String(imageBuffer.count)
@@ -160,6 +166,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         stillImageOutput.capturePhoto(with: settings, delegate: self)
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
