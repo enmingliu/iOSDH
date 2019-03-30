@@ -8,13 +8,32 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let imageView = UIImageView(frame: CGRect(x: 125, y: 150, width: 200, height: 200))
+        imageView.backgroundColor = .blue
+        
+        let scanButton = UIButton(frame: CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 100, width: 160, height: 45))
+        scanButton.backgroundColor = .blue
+        scanButton.setTitle("Take Picture", for: UIControl.State.normal)
+        scanButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .camera
+        imagePicker.delegate =  self
+        self.present(imagePicker, animated: true, completion: nil)
+        
+        self.view.addSubview(scanButton)
+        self.view.addSubview(imageView)
     }
 
-
+    @objc func buttonAction(sender: UIButton!) {
+        print("button tapped")
+        
+    }
+    
 }
 
