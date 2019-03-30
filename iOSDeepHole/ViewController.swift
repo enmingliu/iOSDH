@@ -162,6 +162,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         print("photoOutput")
         let rgba = RGBAImage(image: image!)!
         print(rgba.pixels)
+        print(image?.pixelData())
     }
     
     
@@ -268,7 +269,7 @@ public struct RGBAImage {
 }
 
 extension UIImage {
-    func pixelData() -> [UInt8]? {
+    func pixelData() -> [[[UInt8]]]? {
         let size = self.size
         let dataSize = size.width * size.height * 4
         var pixelData = [UInt8](repeating: 0, count: Int(dataSize))
@@ -283,9 +284,21 @@ extension UIImage {
         guard let cgImage = self.cgImage else { return nil }
         context?.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         
+        var finalPixelData = [[[UInt8]]](repeating: [[UInt8]](repeating: [], count: Int(size.height)), count: Int(size.width))
         
+        var count = 0
+        for w in 0 ..< Int(size.width) {
+            for h in 0 ..< Int(size.height) {
+                for rgbaVal in 0 ..< 4 {
+                    if rgbaVal != 3 {
+                        finalPixelData[w][h].append(pixelData[count])
+                    }
+                    count += 1
+                }
+            }
+        }
         
-        return pixelData
+        return finalPixelData
     }
 }
 
