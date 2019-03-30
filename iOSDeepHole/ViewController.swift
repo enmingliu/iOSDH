@@ -153,6 +153,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // imageView.image = image
         imageBuffer.append(image!)
         locationBuffer.append(curLocation!)
+        print("location count")
+        print(locationBuffer.count)
         // first
         imageView.image = imageBuffer.first
         bufferCounter.text = String(imageBuffer.count)
