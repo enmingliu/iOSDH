@@ -1,4 +1,3 @@
-//
 //  ViewController.swift
 //  iOSDeepHole
 //
@@ -7,11 +6,22 @@
 //
 
 import UIKit
+import CoreLocation
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
 
+    let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        }
         
         let imageView = UIImageView(frame: CGRect(x: 125, y: 150, width: 200, height: 200))
         imageView.backgroundColor = .blue
@@ -28,6 +38,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         self.view.addSubview(scanButton)
         self.view.addSubview(imageView)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            print(location.coordinate)
+        }
     }
 
     @objc func buttonAction(sender: UIButton!) {
