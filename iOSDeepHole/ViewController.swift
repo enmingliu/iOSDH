@@ -8,6 +8,7 @@
 import UIKit
 import CoreLocation
 import AVFoundation
+import FirebaseDatabase
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate {
 
@@ -28,6 +29,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var locationBuffer = [CLLocationCoordinate2D()]
     var curLocation : CLLocationCoordinate2D?
     
+    var ref: DatabaseReference!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,6 +44,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             locationManager.startUpdatingLocation()
         }
         
+        ref = Database.database().reference()
     }
     
     override func viewDidAppear(_ animated: Bool) {
