@@ -12,6 +12,9 @@ import FirebaseDatabase
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate {
 
+    // photo buffer
+    var imageBuffer = [UIImage()]
+    
     let locationManager = CLLocationManager()
     var imageView = UIImageView(frame: CGRect(x: 125, y: 150, width: 200, height: 200))
     var bufferCounter = UILabel()
@@ -78,6 +81,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         bufferCounter.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 200, width: 160, height: 45)
         bufferCounter.text = "0"
+        imageBuffer.remove(at: 0)
+        print(imageBuffer.count)
         
         timerOn.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 300, width: 160, height: 45)
         timerOn.text = "off"
@@ -120,21 +125,31 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if (timer.isValid) {
             timer.invalidate()
+            timerOn.text = "off"
         } else {
-            timer = Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
+            timerOn.text = "on"
         }
         
-        let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
-        stillImageOutput.capturePhoto(with: settings, delegate: self)
+        // let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+        // stillImageOutput.capturePhoto(with: settings, delegate: self)
     }
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation()
             else { return }
         
+        if imageBuffer.endIndex >= 5 {
+            imageBuffer.remove(at: 0)
+        }
+        
         let image = UIImage(data: imageData)
         imageView.backgroundColor = .clear
-        imageView.image = image
+        // imageView.image = image
+        imageBuffer.append(image!)
+        // first
+        imageView.image = imageBuffer.first
+        bufferCounter.text = String(imageBuffer.count)
         self.view.addSubview(imageView)
         print("photoOutput")
     }
@@ -142,7 +157,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @objc func update() {
         print("timer tick")
-    
+        
+        let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+        stillImageOutput.capturePhoto(with: settings, delegate: self)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
