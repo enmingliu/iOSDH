@@ -25,9 +25,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.shared.isIdleTimerDisabled = true
-        let backgroundView = UIImageView()
-        backgroundView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 85)
-        backgroundView.backgroundColor = UIColor.init(white: 0, alpha: 1)
         
         locationManager.requestWhenInUseAuthorization()
         
