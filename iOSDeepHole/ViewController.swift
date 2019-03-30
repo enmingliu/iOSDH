@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import CoreLocation
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
+    
+    let locationManager = CLLocationManager()
     var imageBuffer = [UIImage()]
     var imagePicker = UIImagePickerController()
     var imageView = UIImageView(frame: CGRect(x: 125, y: 150, width: 200, height: 200))
@@ -16,6 +18,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var timerOn = UILabel()
     
     var timer : Timer?
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         locationManager.requestWhenInUseAuthorization()
