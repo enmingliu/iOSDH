@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import FirebaseDatabase
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
     
@@ -18,12 +19,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var timerOn = UILabel()
     
     var timer : Timer?
-    
+    var ref: DatabaseReference!
+
     var locationBuffer = [CLLocationCoordinate2D()]
     var curLocation : CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         UIApplication.shared.isIdleTimerDisabled = true
         
         locationManager.requestWhenInUseAuthorization()
@@ -56,6 +59,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.view.addSubview(imageView)
         self.view.addSubview(bufferCounter)
         self.view.addSubview(timerOn)
+        
+        ref = Database.database().reference()
+        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
