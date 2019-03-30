@@ -160,7 +160,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bufferCounter.text = String(imageBuffer.count)
         self.view.addSubview(imageView)
         print("photoOutput")
-        print(image?.pixelData())
+        // print(image?.pixelData())
     }
     
     
@@ -194,7 +194,7 @@ extension UIImage {
                                 bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
         guard let cgImage = self.cgImage else { return nil }
         context?.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        
+
         return pixelData
     }
 }
