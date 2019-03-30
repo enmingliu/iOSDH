@@ -7,23 +7,30 @@
 
 import UIKit
 import CoreLocation
+import AVFoundation
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
-    
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate {
+
     let locationManager = CLLocationManager()
-    var imageBuffer = [UIImage()]
-    var imagePicker = UIImagePickerController()
     var imageView = UIImageView(frame: CGRect(x: 125, y: 150, width: 200, height: 200))
     var bufferCounter = UILabel()
     var timerOn = UILabel()
     
-    var timer : Timer?
+    // var previewView = UIView()
     
+    // camera shit
+    var captureSession: AVCaptureSession!
+    var stillImageOutput: AVCapturePhotoOutput!
+    var videoPreviewLayer: AVCaptureVideoPreviewLayer!
+    // camera shit
+    
+    var timer = Timer()
     var locationBuffer = [CLLocationCoordinate2D()]
     var curLocation : CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         UIApplication.shared.isIdleTimerDisabled = true
         
         locationManager.requestWhenInUseAuthorization()
@@ -32,6 +39,34 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
+        }
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("start camera")
+        timer.invalidate()
+        captureSession = AVCaptureSession()
+        captureSession.sessionPreset = .medium
+        guard let backCamera = AVCaptureDevice.default(for: AVMediaType.video)
+            else {
+                print("Unable to access back camera!")
+                return
+        }
+        
+        do {
+            let input = try AVCaptureDeviceInput(device: backCamera)
+            stillImageOutput = AVCapturePhotoOutput()
+            
+            if captureSession.canAddInput(input) && captureSession.canAddOutput(stillImageOutput) {
+                captureSession.addInput(input)
+                captureSession.addOutput(stillImageOutput)
+                setupLivePreview()
+            }
+        }
+        catch let error  {
+            print("Error Unable to initialize back camera:  \(error.localizedDescription)")
         }
         
         let imageView = UIImageView(frame: CGRect(x: 125, y: 150, width: 200, height: 200))
@@ -48,32 +83,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         scanButton.setTitle("Take Picture", for: UIControl.State.normal)
         scanButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         
-        imagePicker.sourceType = .camera
-        imagePicker.delegate =  self
-        self.present(imagePicker, animated: true, completion: nil)
-        
         self.view.addSubview(scanButton)
-        self.view.addSubview(imageView)
         self.view.addSubview(bufferCounter)
         self.view.addSubview(timerOn)
+        self.view.addSubview(imageView)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if imageBuffer.endIndex > 5 {
-            imageBuffer.remove(at: 0)
+    func setupLivePreview() {
+        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        
+        videoPreviewLayer.videoGravity = .resizeAspect
+        videoPreviewLayer.connection?.videoOrientation = .portrait
+        self.view.layer.addSublayer(videoPreviewLayer)
+        
+        DispatchQueue.global(qos: .userInitiated).async { //[weak self] in
+            self.captureSession.startRunning()
+            DispatchQueue.main.async {
+                self.videoPreviewLayer.frame = self.view.bounds
+            }
         }
-        
-        if locationBuffer.endIndex > 5 {
-            locationBuffer.remove(at: 0)
-        }
-        
-        imageBuffer.append((info[.originalImage] as? UIImage)!)
-        imageView.image = imageBuffer.last
-        bufferCounter.text = String(imageBuffer.count)
-        
-        locationBuffer.append(curLocation!)
-        
-        // process api call to model here
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -82,22 +110,40 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             curLocation = location.coordinate
         }
     }
-
+    
     @objc func buttonAction(sender: UIButton!) {
         print("button tapped")
-        imagePicker.takePicture()
         
-        if (timer?.isValid)! {
-            timer = Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
+        if (timer.isValid) {
+            timer.invalidate()
         } else {
-            timer?.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
         }
+        
+        let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+        stillImageOutput.capturePhoto(with: settings, delegate: self)
     }
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard let imageData = photo.fileDataRepresentation()
+            else { return }
+        
+        let image = UIImage(data: imageData)
+        imageView.backgroundColor = .clear
+        imageView.image = image
+        self.view.addSubview(imageView)
+        print("photoOutput")
+    }
+    
     
     @objc func update() {
         print("timer tick")
-        
-        imagePicker.takePicture()
+    
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.captureSession.stopRunning()
     }
     
 }
