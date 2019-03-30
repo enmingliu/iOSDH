@@ -18,6 +18,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var timerOn = UILabel()
     
     var timer : Timer?
+    
+    var locationBuffer = [CLLocationCoordinate2D()]
+    var curLocation : CLLocationCoordinate2D?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,14 +62,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             imageBuffer.remove(at: 0)
         }
         
+        if locationBuffer.endIndex > 5 {
+            locationBuffer.remove(at: 0)
+        }
+        
         imageBuffer.append((info[.originalImage] as? UIImage)!)
         imageView.image = imageBuffer.last
         bufferCounter.text = String(imageBuffer.count)
+        
+        locationBuffer.append(curLocation!)
+        
+        // process api call to model here
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             print(location.coordinate)
+            curLocation = location.coordinate
         }
     }
 
@@ -83,7 +96,32 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @objc func update() {
         print("timer tick")
+        
+        imagePicker.takePicture()
     }
     
 }
+
+extension UIImage {
+    func pixelData() -> [UInt8]? {
+        let size = self.size
+        let dataSize = size.width * size.height * 4
+        var pixelData = [UInt8](repeating: 0, count: Int(dataSize))
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGContext(data: &pixelData,
+                                width: Int(size.width),
+                                height: Int(size.height),
+                                bitsPerComponent: 8,
+                                bytesPerRow: 4 * Int(size.width),
+                                space: colorSpace,
+                                bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
+        guard let cgImage = self.cgImage else { return nil }
+        context?.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        
+        return pixelData
+    }
+}
+
+
+
 
