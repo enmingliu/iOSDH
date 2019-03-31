@@ -52,7 +52,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         ref = Database.database().reference()
     }
     
-    func runModel(imageArray: [[[Int]]]){
+    func runModel(imageArray: [[[UInt8]]]) {
         let headers: HTTPHeaders = [
             "Authorization": "Bearer ya29.GlzdBmbVyZbWbnUFio4Z9QuiybCmQ4sl4vPiP3H-sPrsG8UafxGAeRb_6dd56EIzh0O51n06lTBWbXxNroYgKzuzdokE4V2HkZBdYeqf1aft6DZNsAvE2Ns8acyCpg"
         ]
@@ -195,6 +195,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.view.addSubview(imageView)
         print("photoOutput")
         print(image.pixelData())
+        // runModel(imageArray: image.pixelData()!)
+        
     }
     
     
