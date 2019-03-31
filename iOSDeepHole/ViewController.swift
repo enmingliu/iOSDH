@@ -53,9 +53,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         ref = Database.database().reference()
     }
     
-    func runModel(imageArray: [[[UInt8]]]) {
+    func runModel(imageArray: [[[UInt8]]]) -> Bool {
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer ya29.GlzdBic4Mw1VPTb5rKu6sJS2042KV8T63FdFsSr4Lf7Cm8SKWgexoq0HkDFewyG06TTS1CQQUgoAVysSwQvHZsaDjfQjK1h9nJHxcclpj9GnRKPc48qVmYJa6VztFQ"
+            "Authorization": "Bearer ya29.GlzdBor4bBAKFcVb-HxymvV4GwX9-9dS9ru3HcTgdwFtO4NslOTk8ZS5Alr8eJ27L-MPWgjmOHEETGPkIWM3lSNVZ6lGq9fjuqdD2PMWFT2HVrCxLq6OEMic93cUeQ"
         ]
         
         let image = [
@@ -66,7 +66,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             "instances": image
         ]
         
-        
+        var isPotHole : Bool = false
         
         Alamofire.request("https://ml.googleapis.com/v1/projects/deephole-fed23/models/detectHole:predict", method: .post, parameters: parameters , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             print("Request: \(String(describing: response.request))")   // original url request
@@ -75,12 +75,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             if let json = response.value {
                 print("JSON: \(json)") // serialized json response
-                let str = json as? String
-                if let index = str!.index(of: "cd") {
-                    let substring = str![..<index]   // ab
-                    let string = String(substring)
-                    print(string)  // "ab\n"
-                }
+                
 //
 //                print(JSONSerialization.isValidJSONObject(json))
 //                do {
@@ -125,8 +120,24 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
                 print("Data: \(utf8Text)") // original server data as UTF8 string
+                let str = utf8Text
+                if let index = str.index(of: "detection_scores") {
+                    let start = str.index(index, offsetBy: 20)
+                    let end = str.index(index, offsetBy: 27)
+                    let substring = str[start..<end]   // ab
+                    let string = String(substring)
+                    print("indexing into")
+                    print(string)  // "ab\n"
+                    let score = Double(string)
+                    print(score!)
+                    if (score! >= 0.3) {
+                        isPotHole = true
+                    }
+                }
             }
         }
+        
+        return isPotHole
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -241,7 +252,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.view.addSubview(imageView)
         print("photoOutput")
         // runModel(imageArray: image.pixelData()!)
-        runModel(imageArray: [[[1, 2, 3]]])
+        let isPotHole : Bool = runModel(imageArray: [[[1, 2, 3]]])
+        
+        if isPotHole {
+            let insertJson = [
+                "lat": locationBuffer.first?.latitude,
+                "lng": locationBuffer.first?.longitude,
+                "media": ""
+                ] as? [String: Any]
+        }
     }
     
     
