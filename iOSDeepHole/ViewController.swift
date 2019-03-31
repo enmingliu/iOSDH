@@ -9,6 +9,7 @@ import UIKit
 import CoreLocation
 import AVFoundation
 import FirebaseDatabase
+import Alamofire
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate {
     
@@ -34,6 +35,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var ref: DatabaseReference!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,6 +51,37 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         ref = Database.database().reference()
     }
+    
+    func runModel(imageArray: [[[Int]]]){
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer ya29.GlzdBmbVyZbWbnUFio4Z9QuiybCmQ4sl4vPiP3H-sPrsG8UafxGAeRb_6dd56EIzh0O51n06lTBWbXxNroYgKzuzdokE4V2HkZBdYeqf1aft6DZNsAvE2Ns8acyCpg"
+        ]
+        
+        let image = [
+            "image": imageArray
+        ]
+        
+        let parameters = [
+            "instances": image
+        ]
+        
+        
+        
+        AF.request("https://ml.googleapis.com/v1/projects/deephole-fed23/models/detectHole:predict", method: .post, parameters: parameters , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            print("Request: \(String(describing: response.request))")   // original url request
+            print("Response: \(String(describing: response.response))") // http url response
+            print("Result: \(response.result)")                         // response serialization result
+            
+            if let json = response.value {
+                print("JSON: \(json)") // serialized json response
+            }
+            
+            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+                print("Data: \(utf8Text)") // original server data as UTF8 string
+            }
+        }
+    }
+
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
