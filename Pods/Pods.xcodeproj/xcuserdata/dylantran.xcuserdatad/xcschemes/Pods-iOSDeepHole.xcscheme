@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "25224A96F92EB733D7DBF14BDF6379A7"
+               BlueprintIdentifier = "AD32BEB12BA4245B2F4BEA2B244FA17A"
                BuildableName = "Pods_iOSDeepHole.framework"
                BlueprintName = "Pods-iOSDeepHole"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "25224A96F92EB733D7DBF14BDF6379A7"
+            BlueprintIdentifier = "AD32BEB12BA4245B2F4BEA2B244FA17A"
             BuildableName = "Pods_iOSDeepHole.framework"
             BlueprintName = "Pods-iOSDeepHole"
             ReferencedContainer = "container:Pods.xcodeproj">

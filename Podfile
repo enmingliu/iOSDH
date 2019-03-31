@@ -9,5 +9,5 @@ target 'iOSDeepHole' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
-  pod 'Alamofire', '~> 5.0.0-beta.3'
+  pod 'Alamofire', '~> 4.8.0'
 end
