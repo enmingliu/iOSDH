@@ -21,7 +21,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var imageBuffer = [UIImage()]
     
     let locationManager = CLLocationManager()
-    var imageView = UIImageView(frame: CGRect(x: 125, y: 150, width: 200, height: 200))
+    var imageView = UIImageView(frame: CGRect(x: 0, y: 483, width: 100, height: 100))
     var bufferCounter = UILabel()
     var timerOn = UILabel()
     
@@ -286,8 +286,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             print("Error Unable to initialize back camera:  \(error.localizedDescription)")
         }
         
-        let imageView = UIImageView(frame: CGRect(x: 125, y: 150, width: 200, height: 200))
-        imageView.backgroundColor = .blue
+        let imageView = UIImageView(frame: CGRect(x: 0, y: self.view.frame.height - 184, width: 100, height: 100))
+        print("imageview")
+        print(self.view.frame.height - 184)
+        imageView.backgroundColor = .clear
         
         bufferCounter.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 200, width: 160, height: 45)
         bufferCounter.text = "0"
