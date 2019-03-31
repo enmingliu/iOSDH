@@ -135,7 +135,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         print("true")
                         let refCoords = self.ref.child("coordinates")
                         let refKey = refCoords.childByAutoId().key
-
+                        
                         let insertJson = [
                             "lat": coords.latitude,
                             "lng": coords.longitude,
@@ -150,7 +150,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    func uploadImage(data: NSData) {
+    func uploadImage(img: UIImage, id: String){
+        let riversRef = Storage.storage().reference(withPath: "images/hole" + id + ".jpg")
+        let data = img.pngData()!
+        let uploadTask = riversRef.putData(data, metadata: nil) { (metadata, error) in
+            guard let metadata = metadata else {
+                // Uh-oh, an error occurred!
+                return
+            }
+            // Metadata contains file metadata such as size, content-type.
+            let size = metadata.size
+            // You can also access to download URL after upload.
+        }
         
     }
     
