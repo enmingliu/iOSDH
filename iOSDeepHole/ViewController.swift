@@ -13,8 +13,9 @@ import FirebaseDatabase
 import Alamofire
 import Foundation
 import FirebaseStorage
+import Speech
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate, SFSpeechRecognizerDelegate {
     
     // photo buffer
     var imageBuffer = [UIImage()]
@@ -38,6 +39,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var ref: DatabaseReference!
     
+    // SPEECH SHIT
+    let audioEngine = AVAudioEngine()
+    let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
+    let request = SFSpeechAudioBufferRecognitionRequest()
+    var recognitionTask: SFSpeechRecognitionTask?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,9 +62,48 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
     
+    func recordAndRecognizeSpeech() {
+        let node = audioEngine.inputNode
+        let recordingFormat = node.outputFormat(forBus: 0)
+        node.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
+            self.request.append(buffer)
+        }
+        audioEngine.prepare()
+        do {
+            try audioEngine.start()
+        } catch {
+            return print(error)
+        }
+        guard let myRecognizer = SFSpeechRecognizer() else {
+            return
+        }
+        if !myRecognizer.isAvailable {
+            return
+        }
+        
+        recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { result, error in
+            if let result = result {
+                let bestString = result.bestTranscription.formattedString
+                // best string is recognized string
+                
+                var lastString: String = ""
+                for segment in result.bestTranscription.segments {
+                    let indexTo = bestString.index(bestString.startIndex, offsetBy: segment.substringRange.location)
+                    lastString = bestString.substring(from: indexTo)
+                }
+                
+                if lastString == "pot" {
+                    print("POT!") //add coordinates to database and ui indication of receival
+                }
+            } else if let error = error {
+                print(error)
+            }
+        })
+    }
+    
     func runModel(imageArray: [[[UInt8]]], coords: CLLocationCoordinate2D, im: UIImage) {
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer ya29.GlzdBrnqvszjXo55MBupyKmxCbKyRcXTcBh8JikK_54CEYD3L2lS7IMe2VxJa90WrBwm4gsRAO-hFHKeFqavMT592ayG2wk5-KjmcTj96FYoI5BFC9UQypfTG-N9Qw"
+            "Authorization": "Bearer ya29.GlzdBmSy7qSTdCmDt2uysQNpaeBQyCykgNrRGHJbumUO20ZABmFJy5Me0gEasD-qWBUocYPNykfUxFkit-3PBBrmT41QG4V28gxUuI4e4h6Tk9ahFRQn379N-8nMxQ"
         ]
         
         let image = [
@@ -266,6 +311,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         } else {
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
             timerOn.text = "on"
+            self.recordAndRecognizeSpeech()
         }
         
         // let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])

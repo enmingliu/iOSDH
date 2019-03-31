@@ -12,8 +12,8 @@
 		0C022FED224F8DE7007E4176 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C022FEB224F8DE7007E4176 /* Main.storyboard */; };
 		0C022FEF224F8DE8007E4176 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C022FEE224F8DE8007E4176 /* Assets.xcassets */; };
 		0C022FF2224F8DE8007E4176 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C022FF0224F8DE8007E4176 /* LaunchScreen.storyboard */; };
+		8AE1D8AEEF9218062214980D /* Pods_iOSDeepHole.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871E9897D46865F0A91E7C72 /* Pods_iOSDeepHole.framework */; };
 		938CAA8D22503D07004FA952 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 938CAA8C22503D07004FA952 /* GoogleService-Info.plist */; };
-		BCED7AE56496A768F8725FBF /* Pods_iOSDeepHole.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA17C2D4FD1538717439697 /* Pods_iOSDeepHole.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,10 +24,10 @@
 		0C022FEE224F8DE8007E4176 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0C022FF1224F8DE8007E4176 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0C022FF3224F8DE8007E4176 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3CD3C334B89A41EE914F6411 /* Pods-iOSDeepHole.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDeepHole.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDeepHole/Pods-iOSDeepHole.release.xcconfig"; sourceTree = "<group>"; };
-		4AA17C2D4FD1538717439697 /* Pods_iOSDeepHole.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSDeepHole.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BEF51B2AB8CB25279EC54B2 /* Pods-iOSDeepHole.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDeepHole.release.xcconfig"; path = "Target Support Files/Pods-iOSDeepHole/Pods-iOSDeepHole.release.xcconfig"; sourceTree = "<group>"; };
+		871E9897D46865F0A91E7C72 /* Pods_iOSDeepHole.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSDeepHole.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		938CAA8C22503D07004FA952 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		F59CFC6336688EBE73101F69 /* Pods-iOSDeepHole.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDeepHole.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDeepHole/Pods-iOSDeepHole.debug.xcconfig"; sourceTree = "<group>"; };
+		CCB4CA573B26EF0ADDC978A0 /* Pods-iOSDeepHole.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDeepHole.debug.xcconfig"; path = "Target Support Files/Pods-iOSDeepHole/Pods-iOSDeepHole.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,7 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCED7AE56496A768F8725FBF /* Pods_iOSDeepHole.framework in Frameworks */,
+				8AE1D8AEEF9218062214980D /* Pods_iOSDeepHole.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,8 +47,8 @@
 			children = (
 				0C022FE6224F8DE7007E4176 /* iOSDeepHole */,
 				0C022FE5224F8DE7007E4176 /* Products */,
-				BFDD1916C8F2571B5256D7B3 /* Pods */,
-				7ED45AD598935D7220655A64 /* Frameworks */,
+				725D6A0A83CBE0250070A867 /* Pods */,
+				C10808E48FD134169703F69A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,21 +74,22 @@
 			path = iOSDeepHole;
 			sourceTree = "<group>";
 		};
-		7ED45AD598935D7220655A64 /* Frameworks */ = {
+		725D6A0A83CBE0250070A867 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4AA17C2D4FD1538717439697 /* Pods_iOSDeepHole.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		BFDD1916C8F2571B5256D7B3 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				F59CFC6336688EBE73101F69 /* Pods-iOSDeepHole.debug.xcconfig */,
-				3CD3C334B89A41EE914F6411 /* Pods-iOSDeepHole.release.xcconfig */,
+				CCB4CA573B26EF0ADDC978A0 /* Pods-iOSDeepHole.debug.xcconfig */,
+				1BEF51B2AB8CB25279EC54B2 /* Pods-iOSDeepHole.release.xcconfig */,
 			);
 			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C10808E48FD134169703F69A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				871E9897D46865F0A91E7C72 /* Pods_iOSDeepHole.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -98,11 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0C022FF6224F8DE8007E4176 /* Build configuration list for PBXNativeTarget "iOSDeepHole" */;
 			buildPhases = (
-				024E3D275476D8DC5DF341D3 /* [CP] Check Pods Manifest.lock */,
+				D27C5881777687FF29489AD1 /* [CP] Check Pods Manifest.lock */,
 				0C022FE0224F8DE7007E4176 /* Sources */,
 				0C022FE1224F8DE7007E4176 /* Frameworks */,
 				0C022FE2224F8DE7007E4176 /* Resources */,
-				91D6CA954DADCFC8DD40A189 /* [CP] Embed Pods Frameworks */,
+				866B3CC694B373048F9ABEDC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -161,29 +162,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		024E3D275476D8DC5DF341D3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-iOSDeepHole-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		91D6CA954DADCFC8DD40A189 /* [CP] Embed Pods Frameworks */ = {
+		866B3CC694B373048F9ABEDC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -211,6 +190,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iOSDeepHole/Pods-iOSDeepHole-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D27C5881777687FF29489AD1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iOSDeepHole-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -365,7 +366,7 @@
 		};
 		0C022FF7224F8DE8007E4176 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F59CFC6336688EBE73101F69 /* Pods-iOSDeepHole.debug.xcconfig */;
+			baseConfigurationReference = CCB4CA573B26EF0ADDC978A0 /* Pods-iOSDeepHole.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -384,7 +385,7 @@
 		};
 		0C022FF8224F8DE8007E4176 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CD3C334B89A41EE914F6411 /* Pods-iOSDeepHole.release.xcconfig */;
+			baseConfigurationReference = 1BEF51B2AB8CB25279EC54B2 /* Pods-iOSDeepHole.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
