@@ -76,21 +76,30 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             if let json = response.value {
                 print("JSON: \(json)") // serialized json response
                 let jsonText = json as? String
-                var dictonary:NSDictionary?
-                
-                if let data = jsonText?.data(using: String.Encoding.utf8) {
-                    
-                    do {
-                        dictonary = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
-                        
-                        if let myDictionary = dictonary
-                        {
-                            print(" First name is: \(myDictionary["detection_scores"]!)")
-                        }
-                    } catch let error as NSError {
-                        print(error)
-                    }
-                }
+                print(JSONSerialization.isValidJSONObject(json))
+//                do {
+//                    let data = try JSONSerialization.data(withJSONObject:jsonText)
+//                    let dataString = String(data: data, encoding: .utf8)!
+//                    print(dataString)
+//
+//                } catch {
+//                    print("JSON serialization failed: ", error)
+//                }
+//                var dictonary:NSDictionary?
+//
+//                if let data = jsonText?.data(using: String.Encoding.utf8) {
+//
+//                    do {
+//                        dictonary = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
+//
+//                        if let myDictionary = dictonary
+//                        {
+//                            print(" First name is: \(myDictionary["detection_scores"]!)")
+//                        }
+//                    } catch let error as NSError {
+//                        print(error)
+//                    }
+//                }
             }
             
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
@@ -98,6 +107,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     }
+    
+    struct data: Codable {
+        let detection_boxes: Array<Int>
+        let detection_classes: Int
+        let detection_scores: Float
+        let num_detections: Int
+    }
+    
+//    struct Result: Codable {
+//        let weather: [Weather]
+//    }
+//
+//    do {
+//        let weather = try JSONDecoder().decode(Result.self, from: jsonStr.data(using: .utf8)!)
+//        print(weather)
+//            }
+//        catch {
+//        print(error)
+//    }
     
     // Convert from NSData to json object
     func nsdataToJSON(data: NSData) -> AnyObject? {
