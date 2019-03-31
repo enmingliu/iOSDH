@@ -80,14 +80,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         button1.imageEdgeInsets = UIEdgeInsets(top: 25, left: 72, bottom: 25,right: 72)
         self.view.addSubview(button1)
         
-        let logo = UIImageView(frame: CGRect(x: 10, y: 25, width: 50, height: 50))
+        let logo = UIImageView(frame: CGRect(x: self.view.frame.width / 2 - 25, y: 25, width: 50, height: 50))
         logo.image = imageWithImage(image: UIImage(named: "icon.png")!, scaledToSize: CGSize(width: 184/2, height: 184/2))
         self.view.addSubview(logo)
         
-        let eep = UILabel(frame: CGRect(x: 62, y: 4, width: self.view.frame.width - 184/2, height: 184/2))
-        eep.text = "eephole"
-        eep.font = eep.font.withSize(28)
-        self.view.addSubview(eep)
+//        let eep = UILabel(frame: CGRect(x: 62, y: 4, width: self.view.frame.width - 184/2, height: 184/2))
+//        eep.text = "eephole"
+//        eep.font = eep.font.withSize(28)
+//        self.view.addSubview(eep)
     }
 
 
@@ -188,7 +188,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func runModel(imageArray: [[[UInt8]]], coords: CLLocationCoordinate2D, im: UIImage) {
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer ya29.GlvdBrDxnCuFBw8NWUWdOIN2Hpc9FBBAXzP9hKgWdkR0VfPzzAIcFqR1oq0qjgw-Nw7-86MMpKho1hArsVb-KAdNs_MDllZWgM-JrPIPpSCUhe3_QYb33Jx9oFoC"
+            "Authorization": "Bearer ya29.GlzdBrdtOefcfzT-I35bKpR6LaWugwW7yAoTKYCfz2OJYi8Obww_2QytZefPt6g0F0xaoDZg8hRnDVjQP43orMsEUjqddhQPKaiyoGTGV7Yfa03791w9JUmLhzEpUA"
         ]
         
         let image = [
@@ -265,7 +265,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         UIView.animate(withDuration: 0.4, animations: {
                             self.check.alpha = 1
                         })
-                        UIView.animate(withDuration: 1, animations: {
+                        UIView.animate(withDuration: 0.4, animations: {
                             self.check.alpha = 0
                         })
                         print("true")
@@ -291,7 +291,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         UIView.animate(withDuration: 0.4, animations: {
                             self.cancel.alpha = 1
                         })
-                        UIView.animate(withDuration: 1, animations: {
+                        UIView.animate(withDuration: 0.4, animations: {
                             self.cancel.alpha = 0
                         })
                     }
