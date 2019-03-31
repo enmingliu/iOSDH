@@ -60,35 +60,46 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         ref = Database.database().reference()
         
-        let button = UIButton(frame: CGRect(x: 0, y: 184, width: self.view.frame.width/2, height: 184))
-        button.backgroundColor = .blue
+        let button = UIButton(frame: CGRect(x: 0, y: self.view.frame.height - 184/2, width: self.view.frame.width/2, height: 184 / 2))
         button.setTitle("Camera", for: .normal)
         button.addTarget(self, action: #selector(toggleCamera), for: .touchUpInside)
-        
+        button.backgroundColor = UIColor(red: 141/255, green: 156/255, blue: 168/255, alpha: 0.7)
         self.view.addSubview(button)
-        let button1 = UIButton(frame: CGRect(x: self.view.frame.width/2, y: 184, width: self.view.frame.width/2, height: 184))
+        
+        let button1 = UIButton(frame: CGRect(x: self.view.frame.width/2, y: self.view.frame.height - 184/2, width: self.view.frame.width/2, height: 184 / 2))
         button1.setTitle("Mic", for: .normal)
         button1.addTarget(self, action: #selector(toggleMic), for: .touchUpInside)
-        button.backgroundColor = .green
+        button1.backgroundColor = UIColor(red: 146/255, green: 164/255, blue: 168/255, alpha: 0.7)
         self.view.addSubview(button1)
     }
 
 
     @objc func toggleCamera(sender: UIButton!) {
         print("camera toggled")
-        if sender.backgroundColor == .blue {
-            sender.backgroundColor = .red
+        if sender.backgroundColor == UIColor(red: 141/255, green: 156/255, blue: 168/255, alpha: 0.7) {
+            sender.backgroundColor = UIColor(red: 141/255, green: 156/255, blue: 168/255, alpha: 1.0)
         } else {
-            sender.backgroundColor = .blue
+            sender.backgroundColor = UIColor(red: 141/255, green: 156/255, blue: 168/255, alpha: 0.7)
+        }
+        
+        if (timer.isValid) {
+            timer.invalidate()
+            timerOn.text = "off"
+        } else {
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
+            timerOn.text = "on"
         }
     }
     
     @objc func toggleMic(sender: UIButton!) {
         print("POT")
-        if sender.backgroundColor == .green {
-            sender.backgroundColor = .red
+        if sender.backgroundColor == UIColor(red: 146/255, green: 164/255, blue: 168/255, alpha: 0.7) {
+            sender.backgroundColor = UIColor(red: 146/255, green: 164/255, blue: 168/255, alpha: 1.0)
+            self.recordAndRecognizeSpeech()
         } else {
-            sender.backgroundColor = .green
+            sender.backgroundColor = UIColor(red: 146/255, green: 164/255, blue: 168/255, alpha: 0.7)
+            recognitionTask?.finish()
+            audioEngine.inputNode.removeTap(onBus: 0)
         }
     }
     
@@ -133,7 +144,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func runModel(imageArray: [[[UInt8]]], coords: CLLocationCoordinate2D, im: UIImage) {
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer ya29.GlzdBmSy7qSTdCmDt2uysQNpaeBQyCykgNrRGHJbumUO20ZABmFJy5Me0gEasD-qWBUocYPNykfUxFkit-3PBBrmT41QG4V28gxUuI4e4h6Tk9ahFRQn379N-8nMxQ"
+            "Authorization": "Bearer ya29.GlvdBn2MO2rf36kmDw886kA4gzK3OP-ljr4cl3UfEzYHksy-t3PKH9MCdMrskd_Oafz-Rmhcp9hAfDklaOk6oWNfWm5PeMeC6KrrgJwpOiJTo0kUgSa7sj0aCcpy"
         ]
         
         let image = [
@@ -301,12 +312,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         timerOn.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 300, width: 160, height: 45)
         timerOn.text = "off"
         
-        let scanButton = UIButton(frame: CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 100, width: 160, height: 45))
-        scanButton.backgroundColor = .blue
-        scanButton.setTitle("Take Picture", for: UIControl.State.normal)
-        scanButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+//        let scanButton = UIButton(frame: CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 100, width: 160, height: 45))
+//        scanButton.backgroundColor = .blue
+//        scanButton.setTitle("Take Picture", for: UIControl.State.normal)
+//        scanButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         
-        self.view.addSubview(scanButton)
+//        self.view.addSubview(scanButton)
         self.view.addSubview(bufferCounter)
         self.view.addSubview(timerOn)
         self.view.addSubview(imageView)
@@ -334,21 +345,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    @objc func buttonAction(sender: UIButton!) {
-        print("button tapped")
-        
-        if (timer.isValid) {
-            timer.invalidate()
-            timerOn.text = "off"
-        } else {
-            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
-            timerOn.text = "on"
-            self.recordAndRecognizeSpeech()
-        }
+//    @objc func buttonAction(sender: UIButton!) {
+//        print("button tapped")
+    
+//        if (timer.isValid) {
+//            timer.invalidate()
+//            timerOn.text = "off"
+//        } else {
+//            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
+//            timerOn.text = "on"
+//            self.recordAndRecognizeSpeech()
+//        }
         
         // let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         // stillImageOutput.capturePhoto(with: settings, delegate: self)
-    }
+//    }
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation()
