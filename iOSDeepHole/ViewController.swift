@@ -55,7 +55,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func runModel(imageArray: [[[UInt8]]]) {
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer ya29.GlzdBjS8FLSG4QeZ_qp6Lh1Z9YkolPIrfU1AljoSpjkFNxwWyRRlQ2cj1Zulm5znSk4BGgCZ2nTpGfogEJC_Fc-7PxHiFsh72oy04adJ0cU80cIR8Qfw84CUySSbqA"
+            "Authorization": "Bearer ya29.GlzdBic4Mw1VPTb5rKu6sJS2042KV8T63FdFsSr4Lf7Cm8SKWgexoq0HkDFewyG06TTS1CQQUgoAVysSwQvHZsaDjfQjK1h9nJHxcclpj9GnRKPc48qVmYJa6VztFQ"
         ]
         
         let image = [
@@ -75,13 +75,28 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             if let json = response.value {
                 print("JSON: \(json)") // serialized json response
-                let jsonText = json as? String
-                print(JSONSerialization.isValidJSONObject(json))
+//                let jsonText = json as? String
+//                print(JSONSerialization.isValidJSONObject(json))
 //                do {
-//                    let data = try JSONSerialization.data(withJSONObject:jsonText)
-//                    let dataString = String(data: data, encoding: .utf8)!
-//                    print(dataString)
+//                    let jsonData = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
 //
+//                    let jsonTry = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
+//                    // let dataString = String(data: jsonData, encoding: .utf8)!
+//                    print("dataString")
+//                    print(JSONSerialization.isValidJSONObject(jsonTry!["predictions"]!))
+//
+//                    // print(jsonTry!["predictions"]!)
+//                    print(json)
+//                    print("datab")
+//                    print(jsonTry!["predictions"]!)
+                
+//                    var dict: NSDictionary = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+//
+//                    print(dict["predictions"]!)
+//
+//                    var dict2 : NSDictionary = dict["predictions"]! as! NSDictionary
+//                    print("debug")
+//                    print(dict2)
 //                } catch {
 //                    print("JSON serialization failed: ", error)
 //                }
@@ -107,46 +122,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     }
-    
-    struct data: Codable {
-        let detection_boxes: Array<Int>
-        let detection_classes: Int
-        let detection_scores: Float
-        let num_detections: Int
-    }
-    
-//    struct Result: Codable {
-//        let weather: [Weather]
-//    }
-//
-//    do {
-//        let weather = try JSONDecoder().decode(Result.self, from: jsonStr.data(using: .utf8)!)
-//        print(weather)
-//            }
-//        catch {
-//        print(error)
-//    }
-    
-    // Convert from NSData to json object
-    func nsdataToJSON(data: NSData) -> AnyObject? {
-        do {
-            return try JSONSerialization.jsonObject(with: data as Data, options: .mutableContainers) as AnyObject
-        } catch let myJSONError {
-            print(myJSONError)
-        }
-        return nil
-    }
-    
-    // Convert from JSON to nsdata
-    func jsonToNSData(json: AnyObject) -> NSData? {
-        do {
-            return try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted) as NSData
-        } catch let myJSONError {
-            print(myJSONError)
-        }
-        return nil;
-    }
-
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -259,8 +234,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bufferCounter.text = String(imageBuffer.count)
         self.view.addSubview(imageView)
         print("photoOutput")
-        runModel(imageArray: image.pixelData()!)
-        
+        // runModel(imageArray: image.pixelData()!)
+        runModel(imageArray: [[[1, 2, 3]]])
     }
     
     
