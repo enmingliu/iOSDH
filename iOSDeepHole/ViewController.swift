@@ -13,9 +13,8 @@ import FirebaseDatabase
 import Alamofire
 import Foundation
 import FirebaseStorage
-import Speech
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate, SFSpeechRecognizerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate {
     
     // photo buffer
     var imageBuffer = [UIImage()]
@@ -39,11 +38,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var ref: DatabaseReference!
     
-    let audioEngine = AVAudioEngine()
-    let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
-    let request = SFSpeechAudioBufferRecognitionRequest()
-    var recognitionTask: SFSpeechRecognitionTask?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +45,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         UIApplication.shared.isIdleTimerDisabled = true
         
         locationManager.requestWhenInUseAuthorization()
-        
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -61,13 +54,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         ref = Database.database().reference()
         
-        
-        
-    }
-    
-    func recordAndRecognizeSpeech() {
-        guard let node = audioEngine.inputNode else { return }
-        let recordingFormat = node.outputFormat(forBus)
     }
     
     func runModel(imageArray: [[[UInt8]]], coords: CLLocationCoordinate2D, im: UIImage) {
@@ -181,7 +167,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 // Uh-oh, an error occurred!
                 return
             }
-            metadata.contentType
             // Metadata contains file metadata such as size, content-type.
             let size = metadata.size
             // You can also access to download URL after upload.
@@ -197,7 +182,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 }
             }
         }
-        print(riversRef.downloadURL(completion: <#T##(URL?, Error?) -> Void#>))
         
     }
     
