@@ -8,9 +8,11 @@
 import UIKit
 import CoreLocation
 import AVFoundation
+import Firebase
 import FirebaseDatabase
 import Alamofire
 import Foundation
+import FirebaseStorage
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate {
     
@@ -51,6 +53,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
         ref = Database.database().reference()
+        
     }
     
     func runModel(imageArray: [[[UInt8]]]) {
@@ -127,6 +130,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 print("Data: \(utf8Text)") // original server data as UTF8 string
             }
         }
+    }
+    
+    func uploadImage(data: NSData) {
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
