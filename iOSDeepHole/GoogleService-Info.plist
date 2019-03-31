@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>256816479456-4h9l0hd5hs1d9g951jn2bal00q90lvne.apps.googleusercontent.com</string>
+	<string>961452994389-bk41ce72v75dv0ttl87p0lr0cch9ojgv.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.256816479456-4h9l0hd5hs1d9g951jn2bal00q90lvne</string>
+	<string>com.googleusercontent.apps.961452994389-bk41ce72v75dv0ttl87p0lr0cch9ojgv</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDEHKktBIR9TBF1o44L1QDo-pV-CiwmWYg</string>
+	<string>AIzaSyCCHYvrrbsB_VZn35tttVR9fWp67KLw3rE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>256816479456</string>
+	<string>961452994389</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.eprotagoras.iOSDeepHole</string>
 	<key>PROJECT_ID</key>
-	<string>deephole-1553943439713</string>
+	<string>deephole-fed23</string>
 	<key>STORAGE_BUCKET</key>
-	<string>deephole-1553943439713.appspot.com</string>
+	<string>deephole-fed23.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:256816479456:ios:e7d0c7b0c3426b9f</string>
+	<string>1:961452994389:ios:e7d0c7b0c3426b9f</string>
 	<key>DATABASE_URL</key>
-	<string>https://deephole-1553943439713.firebaseio.com</string>
+	<string>https://deephole-fed23.firebaseio.com</string>
 </dict>
 </plist>
