@@ -60,6 +60,36 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         ref = Database.database().reference()
         
+        let button = UIButton(frame: CGRect(x: 0, y: 184, width: self.view.frame.width/2, height: 184))
+        button.backgroundColor = .blue
+        button.setTitle("Camera", for: .normal)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        
+        self.view.addSubview(button)
+        let button1 = UIButton(frame: CGRect(x: self.view.frame.width/2, y: 184, width: self.view.frame.width/2, height: 184))
+        button1.setTitle("Mic", for: .normal)
+        button1.addTarget(self, action: #selector(buttonAction1), for: .touchUpInside)
+        button.backgroundColor = .green
+        self.view.addSubview(button1)
+    }
+
+
+    @objc func buttonAction(sender: UIButton!) {
+        print("camera toggled")
+        if sender.backgroundColor == .blue {
+            sender.backgroundColor = .red
+        } else {
+            sender.backgroundColor = .blue
+        }
+    }
+    
+    @objc func buttonAction1(sender: UIButton!) {
+        print("POT")
+        if sender.backgroundColor == .green {
+            sender.backgroundColor = .red
+        } else {
+            sender.backgroundColor = .green
+        }
     }
     
     func recordAndRecognizeSpeech() {
