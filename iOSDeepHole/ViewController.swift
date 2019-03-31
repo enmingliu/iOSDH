@@ -53,7 +53,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         ref = Database.database().reference()
     }
     
-    func runModel(imageArray: [[[UInt8]]]) -> Bool {
+    func runModel(imageArray: [[[UInt8]]], coords: CLLocationCoordinate2D, image: UIImage) {
         let headers: HTTPHeaders = [
             "Authorization": "Bearer ya29.GlzdBor4bBAKFcVb-HxymvV4GwX9-9dS9ru3HcTgdwFtO4NslOTk8ZS5Alr8eJ27L-MPWgjmOHEETGPkIWM3lSNVZ6lGq9fjuqdD2PMWFT2HVrCxLq6OEMic93cUeQ"
         ]
@@ -65,8 +65,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let parameters = [
             "instances": image
         ]
-        
-        var isPotHole : Bool = false
         
         Alamofire.request("https://ml.googleapis.com/v1/projects/deephole-fed23/models/detectHole:predict", method: .post, parameters: parameters , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             print("Request: \(String(describing: response.request))")   // original url request
@@ -131,13 +129,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     let score = Double(string)
                     print(score!)
                     if (score! >= 0.3) {
-                        isPotHole = true
+                        print("true")
+                        let refCoords = self.ref.child("coordinates")
+                        let refKey = refCoords.childByAutoId().key
+
+                        let insertJson = [
+                            "lat": coords.latitude,
+                            "lng": coords.longitude,
+                            "media": ""
+                            ] as? [String: Any]
+
+                        refCoords.child(refKey!).setValue(insertJson)
+                        
                     }
                 }
             }
         }
-        
-        return isPotHole
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -251,16 +258,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bufferCounter.text = String(imageBuffer.count)
         self.view.addSubview(imageView)
         print("photoOutput")
-        // runModel(imageArray: image.pixelData()!)
-        let isPotHole : Bool = runModel(imageArray: [[[1, 2, 3]]])
-        
-        if isPotHole {
-            let insertJson = [
-                "lat": locationBuffer.first?.latitude,
-                "lng": locationBuffer.first?.longitude,
-                "media": ""
-                ] as? [String: Any]
-        }
+        runModel(imageArray: imageBuffer.first!.pixelData()!, coords: locationBuffer.first!, image: imageBuffer.first!)
+//
+//
+//
+//        if isPotHole {
+//            print("SENT!")
+//            let refCoords = self.ref.child("coordinates")
+//            let refKey = refCoords.childByAutoId().key
+//
+//            let insertJson = [
+//                "lat": locationBuffer.first?.latitude,
+//                "lng": locationBuffer.first?.longitude,
+//                "media": ""
+//                ] as? [String: Any]
+//
+//            refCoords.child(refKey!).setValue(insertJson)
+//        }
     }
     
     
