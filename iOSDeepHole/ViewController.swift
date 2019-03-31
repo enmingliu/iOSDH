@@ -13,8 +13,9 @@ import FirebaseDatabase
 import Alamofire
 import Foundation
 import FirebaseStorage
+import Speech
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate, SFSpeechRecognizerDelegate {
     
     // photo buffer
     var imageBuffer = [UIImage()]
@@ -38,6 +39,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var ref: DatabaseReference!
     
+    let audioEngine = AVAudioEngine()
+    let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
+    let request = SFSpeechAudioBufferRecognitionRequest()
+    var recognitionTask: SFSpeechRecognitionTask?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +51,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         UIApplication.shared.isIdleTimerDisabled = true
         
         locationManager.requestWhenInUseAuthorization()
+        
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -54,6 +61,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         ref = Database.database().reference()
         
+        
+        
+    }
+    
+    func recordAndRecognizeSpeech() {
+        guard let node = audioEngine.inputNode else { return }
+        let recordingFormat = node.outputFormat(forBus)
     }
     
     func runModel(imageArray: [[[UInt8]]], coords: CLLocationCoordinate2D, im: UIImage) {
