@@ -12,6 +12,12 @@
 		0C022FED224F8DE7007E4176 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C022FEB224F8DE7007E4176 /* Main.storyboard */; };
 		0C022FEF224F8DE8007E4176 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C022FEE224F8DE8007E4176 /* Assets.xcassets */; };
 		0C022FF2224F8DE8007E4176 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C022FF0224F8DE8007E4176 /* LaunchScreen.storyboard */; };
+		0C5C2E4E2250D5BA00B6C95C /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5C2E4C2250D5BA00B6C95C /* camera.png */; };
+		0C5C2E4F2250D5BA00B6C95C /* microphone-for-singers.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5C2E4D2250D5BA00B6C95C /* microphone-for-singers.png */; };
+		0C5C2E512250E11100B6C95C /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5C2E502250E11100B6C95C /* checked.png */; };
+		0C5C2E532250E83C00B6C95C /* cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5C2E522250E83C00B6C95C /* cancel.png */; };
+		0C5C2E552250EA9200B6C95C /* deephole.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5C2E542250EA9200B6C95C /* deephole.png */; };
+		0C5C2E572250ED7000B6C95C /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5C2E562250ED7000B6C95C /* icon.png */; };
 		257B0352F45A55486905E475 /* Pods_iOSDeepHole.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC0F3E9D92A16E74919857 /* Pods_iOSDeepHole.framework */; };
 		938CAA8D22503D07004FA952 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 938CAA8C22503D07004FA952 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -24,6 +30,12 @@
 		0C022FEE224F8DE8007E4176 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0C022FF1224F8DE8007E4176 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0C022FF3224F8DE8007E4176 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0C5C2E4C2250D5BA00B6C95C /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		0C5C2E4D2250D5BA00B6C95C /* microphone-for-singers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "microphone-for-singers.png"; sourceTree = "<group>"; };
+		0C5C2E502250E11100B6C95C /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
+		0C5C2E522250E83C00B6C95C /* cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel.png; sourceTree = "<group>"; };
+		0C5C2E542250EA9200B6C95C /* deephole.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deephole.png; sourceTree = "<group>"; };
+		0C5C2E562250ED7000B6C95C /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		0EEC0F3E9D92A16E74919857 /* Pods_iOSDeepHole.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSDeepHole.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		704464540B40CDDD6D351C88 /* Pods-iOSDeepHole.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDeepHole.release.xcconfig"; path = "Target Support Files/Pods-iOSDeepHole/Pods-iOSDeepHole.release.xcconfig"; sourceTree = "<group>"; };
 		938CAA8C22503D07004FA952 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -65,8 +77,14 @@
 			children = (
 				0C022FE7224F8DE7007E4176 /* AppDelegate.swift */,
 				0C022FE9224F8DE7007E4176 /* ViewController.swift */,
+				0C5C2E562250ED7000B6C95C /* icon.png */,
+				0C5C2E542250EA9200B6C95C /* deephole.png */,
+				0C5C2E522250E83C00B6C95C /* cancel.png */,
+				0C5C2E502250E11100B6C95C /* checked.png */,
 				0C022FEB224F8DE7007E4176 /* Main.storyboard */,
 				0C022FEE224F8DE8007E4176 /* Assets.xcassets */,
+				0C5C2E4C2250D5BA00B6C95C /* camera.png */,
+				0C5C2E4D2250D5BA00B6C95C /* microphone-for-singers.png */,
 				0C022FF0224F8DE8007E4176 /* LaunchScreen.storyboard */,
 				0C022FF3224F8DE8007E4176 /* Info.plist */,
 				938CAA8C22503D07004FA952 /* GoogleService-Info.plist */,
@@ -88,7 +106,6 @@
 				A77EE3E0D630897FE0422EB7 /* Pods-iOSDeepHole.debug.xcconfig */,
 				704464540B40CDDD6D351C88 /* Pods-iOSDeepHole.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -154,8 +171,14 @@
 			files = (
 				0C022FF2224F8DE8007E4176 /* LaunchScreen.storyboard in Resources */,
 				938CAA8D22503D07004FA952 /* GoogleService-Info.plist in Resources */,
+				0C5C2E552250EA9200B6C95C /* deephole.png in Resources */,
 				0C022FEF224F8DE8007E4176 /* Assets.xcassets in Resources */,
+				0C5C2E532250E83C00B6C95C /* cancel.png in Resources */,
+				0C5C2E4F2250D5BA00B6C95C /* microphone-for-singers.png in Resources */,
+				0C5C2E572250ED7000B6C95C /* icon.png in Resources */,
+				0C5C2E512250E11100B6C95C /* checked.png in Resources */,
 				0C022FED224F8DE7007E4176 /* Main.storyboard in Resources */,
+				0C5C2E4E2250D5BA00B6C95C /* camera.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

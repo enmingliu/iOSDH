@@ -39,6 +39,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var ref: DatabaseReference!
     
+    var check = UIImageView()
+    var cancel = UIImageView()
     // SPEECH SHIT
     let audioEngine = AVAudioEngine()
     let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
@@ -47,7 +49,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = UIColor(red: 186/255, green: 226/255, blue: 244/255, alpha: 1)
         UIApplication.shared.isIdleTimerDisabled = true
         
         locationManager.requestWhenInUseAuthorization()
@@ -63,23 +65,38 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let button = UIButton(frame: CGRect(x: 0, y: self.view.frame.height - 184/2, width: self.view.frame.width/2, height: 184 / 2))
         button.setTitle("Camera", for: .normal)
         button.addTarget(self, action: #selector(toggleCamera), for: .touchUpInside)
-        button.backgroundColor = UIColor(red: 141/255, green: 156/255, blue: 168/255, alpha: 0.7)
+        button.backgroundColor = UIColor(red: 65/255, green: 127/255, blue: 226/255, alpha: 0.7)
+        let cam: UIImage = UIImage(named: "camera.png")!
+        button.setImage(cam, for: UIControl.State.normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 25,left: 72,bottom: 25,right: 72)
         self.view.addSubview(button)
         
         let button1 = UIButton(frame: CGRect(x: self.view.frame.width/2, y: self.view.frame.height - 184/2, width: self.view.frame.width/2, height: 184 / 2))
         button1.setTitle("Mic", for: .normal)
         button1.addTarget(self, action: #selector(toggleMic), for: .touchUpInside)
-        button1.backgroundColor = UIColor(red: 146/255, green: 164/255, blue: 168/255, alpha: 0.7)
+        button1.backgroundColor = UIColor(red: 81/255, green: 183/255, blue: 247/255, alpha: 0.7)
+        let mic: UIImage = UIImage(named: "microphone-for-singers.png")!
+        button1.setImage(mic, for: UIControl.State.normal)
+        button1.imageEdgeInsets = UIEdgeInsets(top: 25, left: 72, bottom: 25,right: 72)
         self.view.addSubview(button1)
+        
+        let logo = UIImageView(frame: CGRect(x: 10, y: 25, width: 50, height: 50))
+        logo.image = imageWithImage(image: UIImage(named: "icon.png")!, scaledToSize: CGSize(width: 184/2, height: 184/2))
+        self.view.addSubview(logo)
+        
+        let eep = UILabel(frame: CGRect(x: 62, y: 4, width: self.view.frame.width - 184/2, height: 184/2))
+        eep.text = "eephole"
+        eep.font = eep.font.withSize(28)
+        self.view.addSubview(eep)
     }
 
 
     @objc func toggleCamera(sender: UIButton!) {
         print("camera toggled")
-        if sender.backgroundColor == UIColor(red: 141/255, green: 156/255, blue: 168/255, alpha: 0.7) {
-            sender.backgroundColor = UIColor(red: 141/255, green: 156/255, blue: 168/255, alpha: 1.0)
+        if sender.backgroundColor == UIColor(red: 65/255, green: 127/255, blue: 226/255, alpha: 0.7) {
+            sender.backgroundColor = UIColor(red: 65/255, green: 127/255, blue: 226/255, alpha: 1.0)
         } else {
-            sender.backgroundColor = UIColor(red: 141/255, green: 156/255, blue: 168/255, alpha: 0.7)
+            sender.backgroundColor = UIColor(red: 65/255, green: 127/255, blue: 226/255, alpha: 0.7)
         }
         
         if (timer.isValid) {
@@ -93,11 +110,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @objc func toggleMic(sender: UIButton!) {
         print("POT")
-        if sender.backgroundColor == UIColor(red: 146/255, green: 164/255, blue: 168/255, alpha: 0.7) {
-            sender.backgroundColor = UIColor(red: 146/255, green: 164/255, blue: 168/255, alpha: 1.0)
+        if sender.backgroundColor == UIColor(red: 81/255, green: 183/255, blue: 247/255, alpha: 0.7) {
+            sender.backgroundColor = UIColor(red: 81/255, green: 183/255, blue: 247/255, alpha: 1.0)
             self.recordAndRecognizeSpeech()
         } else {
-            sender.backgroundColor = UIColor(red: 146/255, green: 164/255, blue: 168/255, alpha: 0.7)
+            sender.backgroundColor = UIColor(red: 81/255, green: 183/255, blue: 247/255, alpha: 0.7)
             recognitionTask?.finish()
             audioEngine.inputNode.removeTap(onBus: 0)
         }
@@ -135,6 +152,33 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 
                 if lastString == "pot" {
                     print("POT!") //add coordinates to database and ui indication of receival
+
+                    self.locationBuffer.append(self.curLocation!)
+                    print("location count")
+                    print(self.locationBuffer.count)
+       
+                    let refCoords = self.ref.child("coordinates")
+                    let refKey = refCoords.childByAutoId().key
+                    
+                    let insertJson = [
+                        "date": "",
+                        "email": "",
+                        "imgURL": "",
+                        "manual": "",
+                        "phone": "",
+                        "time": "",
+                        "lat": self.locationBuffer.first!.latitude,
+                        "lng": self.locationBuffer.first!.longitude,
+                        ] as? [String: Any]
+                    
+                    refCoords.child(refKey!).setValue(insertJson)
+
+                    UIView.animate(withDuration: 0.4, animations: {
+                        self.check.alpha = 1
+                    })
+                    UIView.animate(withDuration: 1, animations: {
+                        self.check.alpha = 0
+                    })
                 }
             } else if let error = error {
                 print(error)
@@ -144,7 +188,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func runModel(imageArray: [[[UInt8]]], coords: CLLocationCoordinate2D, im: UIImage) {
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer ya29.GlvdBn2MO2rf36kmDw886kA4gzK3OP-ljr4cl3UfEzYHksy-t3PKH9MCdMrskd_Oafz-Rmhcp9hAfDklaOk6oWNfWm5PeMeC6KrrgJwpOiJTo0kUgSa7sj0aCcpy"
+            "Authorization": "Bearer ya29.GlvdBrDxnCuFBw8NWUWdOIN2Hpc9FBBAXzP9hKgWdkR0VfPzzAIcFqR1oq0qjgw-Nw7-86MMpKho1hArsVb-KAdNs_MDllZWgM-JrPIPpSCUhe3_QYb33Jx9oFoC"
         ]
         
         let image = [
@@ -218,6 +262,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     let score = Double(string)
                     print(score!)
                     if (score! >= 0.3) {
+                        UIView.animate(withDuration: 0.4, animations: {
+                            self.check.alpha = 1
+                        })
+                        UIView.animate(withDuration: 1, animations: {
+                            self.check.alpha = 0
+                        })
                         print("true")
                         let refCoords = self.ref.child("coordinates")
                         let refKey = refCoords.childByAutoId().key
@@ -237,6 +287,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         
                         self.uploadImage(img: im, id: refKey!)
                         
+                    } else {
+                        UIView.animate(withDuration: 0.4, animations: {
+                            self.cancel.alpha = 1
+                        })
+                        UIView.animate(withDuration: 1, animations: {
+                            self.cancel.alpha = 0
+                        })
                     }
                 }
             }
@@ -302,15 +359,24 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         print(self.view.frame.height - 184)
         imageView.backgroundColor = .clear
         
-        bufferCounter.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 200, width: 160, height: 45)
-        bufferCounter.text = "0"
+//        bufferCounter.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 200, width: 160, height: 45)
+//        bufferCounter.text = "0"
         imageBuffer.remove(at: 0)
         locationBuffer.remove(at: 0)
         print(imageBuffer.count)
         print(locationBuffer.count)
         
-        timerOn.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 300, width: 160, height: 45)
-        timerOn.text = "off"
+        check = UIImageView(frame: CGRect(x: self.view.frame.width - 40, y: 184/2, width: 40, height: 40))
+        check.image = imageWithImage(image: UIImage(named: "checked.png")!, scaledToSize: CGSize(width: 184/2, height: 184/2))
+        check.alpha = 0
+        self.view.addSubview(check)
+        cancel = UIImageView(frame: CGRect(x: self.view.frame.width - 40, y: 184/2, width: 40, height: 40))
+        cancel.image = imageWithImage(image: UIImage(named: "cancel.png")!, scaledToSize: CGSize(width: 184/2, height: 184/2))
+        cancel.alpha = 0
+        self.view.addSubview(cancel)
+        
+//        timerOn.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 300, width: 160, height: 45)
+//        timerOn.text = "off"
         
 //        let scanButton = UIButton(frame: CGRect(x: self.view.frame.width / 2, y: self.view.frame.height - 100, width: 160, height: 45))
 //        scanButton.backgroundColor = .blue
@@ -318,8 +384,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 //        scanButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         
 //        self.view.addSubview(scanButton)
-        self.view.addSubview(bufferCounter)
-        self.view.addSubview(timerOn)
+//        self.view.addSubview(bufferCounter)
+//        self.view.addSubview(timerOn)
         self.view.addSubview(imageView)
     }
     
@@ -492,6 +558,3 @@ extension StringProtocol where Index == String.Index {
         return result
     }
 }
-
-
-
