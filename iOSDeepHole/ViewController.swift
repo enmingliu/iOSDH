@@ -56,9 +56,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
     
-    func runModel(imageArray: [[[UInt8]]], coords: CLLocationCoordinate2D, image: UIImage) {
+    func runModel(imageArray: [[[UInt8]]], coords: CLLocationCoordinate2D, im: UIImage) {
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer ya29.GlzdBor4bBAKFcVb-HxymvV4GwX9-9dS9ru3HcTgdwFtO4NslOTk8ZS5Alr8eJ27L-MPWgjmOHEETGPkIWM3lSNVZ6lGq9fjuqdD2PMWFT2HVrCxLq6OEMic93cUeQ"
+            "Authorization": "Bearer ya29.GlzdBrnqvszjXo55MBupyKmxCbKyRcXTcBh8JikK_54CEYD3L2lS7IMe2VxJa90WrBwm4gsRAO-hFHKeFqavMT592ayG2wk5-KjmcTj96FYoI5BFC9UQypfTG-N9Qw"
         ]
         
         let image = [
@@ -137,12 +137,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         let refKey = refCoords.childByAutoId().key
                         
                         let insertJson = [
+                            "date": "",
+                            "email": "",
+                            "imgURL": "",
+                            "manual": "",
+                            "phone": "",
+                            "time": "",
                             "lat": coords.latitude,
                             "lng": coords.longitude,
-                            "media": ""
                             ] as? [String: Any]
 
                         refCoords.child(refKey!).setValue(insertJson)
+                        
+                        self.uploadImage(img: im, id: refKey!)
                         
                     }
                 }
@@ -153,6 +160,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func uploadImage(img: UIImage, id: String){
         let riversRef = Storage.storage().reference(withPath: "images/hole" + id + ".jpg")
         let data = img.pngData()!
+//        let metaData = StorageMetadata()
+//        metaData.contentType = "image/jpg"
         let uploadTask = riversRef.putData(data, metadata: nil) { (metadata, error) in
             guard let metadata = metadata else {
                 // Uh-oh, an error occurred!
@@ -161,6 +170,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             // Metadata contains file metadata such as size, content-type.
             let size = metadata.size
             // You can also access to download URL after upload.
+            riversRef.downloadURL { (url, error) in
+                if let error = error {
+                    print("errored")
+                    print(error)
+                } else {
+                    let refCoords = self.ref.child("coordinates")
+                    print("yes")
+                    print(url?.absoluteString)
+                    refCoords.child(id).child("imgURL").setValue(url?.absoluteString)
+                }
+            }
         }
         
     }
@@ -276,7 +296,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bufferCounter.text = String(imageBuffer.count)
         self.view.addSubview(imageView)
         print("photoOutput")
-        runModel(imageArray: imageBuffer.first!.pixelData()!, coords: locationBuffer.first!, image: imageBuffer.first!)
+        runModel(imageArray: imageBuffer.first!.pixelData()!, coords: locationBuffer.first!, im: imageBuffer.first!)
 //
 //
 //
