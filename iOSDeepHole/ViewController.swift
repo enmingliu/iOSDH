@@ -10,6 +10,7 @@ import CoreLocation
 import AVFoundation
 import FirebaseDatabase
 import Alamofire
+import Foundation
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, AVCapturePhotoCaptureDelegate {
     
@@ -54,7 +55,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func runModel(imageArray: [[[UInt8]]]) {
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer ya29.GlzdBmbVyZbWbnUFio4Z9QuiybCmQ4sl4vPiP3H-sPrsG8UafxGAeRb_6dd56EIzh0O51n06lTBWbXxNroYgKzuzdokE4V2HkZBdYeqf1aft6DZNsAvE2Ns8acyCpg"
+            "Authorization": "Bearer ya29.GlzdBjS8FLSG4QeZ_qp6Lh1Z9YkolPIrfU1AljoSpjkFNxwWyRRlQ2cj1Zulm5znSk4BGgCZ2nTpGfogEJC_Fc-7PxHiFsh72oy04adJ0cU80cIR8Qfw84CUySSbqA"
         ]
         
         let image = [
@@ -74,12 +75,48 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             if let json = response.value {
                 print("JSON: \(json)") // serialized json response
+                let jsonText = json as? String
+                var dictonary:NSDictionary?
+                
+                if let data = jsonText?.data(using: String.Encoding.utf8) {
+                    
+                    do {
+                        dictonary = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
+                        
+                        if let myDictionary = dictonary
+                        {
+                            print(" First name is: \(myDictionary["detection_scores"]!)")
+                        }
+                    } catch let error as NSError {
+                        print(error)
+                    }
+                }
             }
             
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
                 print("Data: \(utf8Text)") // original server data as UTF8 string
             }
         }
+    }
+    
+    // Convert from NSData to json object
+    func nsdataToJSON(data: NSData) -> AnyObject? {
+        do {
+            return try JSONSerialization.jsonObject(with: data as Data, options: .mutableContainers) as AnyObject
+        } catch let myJSONError {
+            print(myJSONError)
+        }
+        return nil
+    }
+    
+    // Convert from JSON to nsdata
+    func jsonToNSData(json: AnyObject) -> NSData? {
+        do {
+            return try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted) as NSData
+        } catch let myJSONError {
+            print(myJSONError)
+        }
+        return nil;
     }
 
     
@@ -194,8 +231,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bufferCounter.text = String(imageBuffer.count)
         self.view.addSubview(imageView)
         print("photoOutput")
-        print(image.pixelData())
-        // runModel(imageArray: image.pixelData()!)
+        runModel(imageArray: image.pixelData()!)
         
     }
     
