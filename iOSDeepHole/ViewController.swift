@@ -158,10 +158,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 // Uh-oh, an error occurred!
                 return
             }
+            metadata.contentType
             // Metadata contains file metadata such as size, content-type.
             let size = metadata.size
             // You can also access to download URL after upload.
         }
+        print(riversRef.downloadURL(completion: <#T##(URL?, Error?) -> Void#>))
         
     }
     

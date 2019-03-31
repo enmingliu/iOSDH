@@ -45,5 +45,7 @@
 	<string>Please allow location access to locate potholes.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Please allow camera access to locate potholes.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Please allow speech recognition access to locate potholes</string>
 </dict>
 </plist>
